@@ -1,0 +1,73 @@
+path {  stroke: #fff; }
+path:hover {  opacity:0.9; }
+rect:hover {  fill:#4661b4; }
+.axis {  font: 10px sans-serif; }
+.legend tr{	border-bottom:1px solid grey; }
+.legend tr:first-child{	border-top:1px solid grey; }
+
+.axis path,
+.axis line {
+	fill: none;
+	stroke: #000;
+	shape-rendering: crispEdges;
+}
+
+.x.axis path {  display: none; }
+.legend{
+	margin-bottom:76px;
+	border-collapse: collapse;
+	border-spacing: 0px;
+	margin: auto;
+	width: 100%;
+}
+.legend td{
+	padding:4px 5px;
+	vertical-align:bottom;
+}
+.legendFreq, .legendPerc{
+	align:right;
+	width:10%;
+}
+
+svg{
+	display: block;
+	margin: auto;
+}
+
+.main-well {
+	overflow-x: scroll;
+	width: 100%;
+	background-color: white;
+	margin-top: 1%;
+}
+
+.main-progress {
+	visibility: hidden;
+	height: 10px;
+	margin-bottom: 0px;
+}
+
+.main-progress-bar {
+	width: 100%;
+	visibility: inherit;
+}
+
+.main-select {
+	background-color: white;
+	margin-bottom: 0px;
+}
+
+.main-container {
+	margin: auto;
+	width: 50%;
+}
+
+@media screen and (max-width: 768px) {
+	.main-container {
+		width: 90%;
+	}
+}
+
+.wide-button {
+	width: 100%;
+}
