@@ -5,16 +5,32 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<script src="{{ url_for('static', filename='js/load.js') }}"></script>
 
-	<!-- Repos -->
+	<!-- Private repos -->
 	<div class="row">
-		<span class="lead">Display statistics for </span>
-		<select id="repoName" class="custom-select lead main-select">
-			<option disabled selected value>ExampleRepository</option>
-			{% for repo in repos %}
-				<option value = "{{ repo.name }}"> {{ repo.name }} </option>
-			{% endfor %}
-		</select>
-		<span class="lead">'s 20 most recent commits.</span>
+		<table style="margin-bottom: 0px;" class="table">
+			<tr>
+				<td><span class="lead">Private repository: </span></td>
+				<td>
+					<select id="repoName" class="custom-select lead main-select" >
+						<option disabled selected value>Your Repository</option>
+						{% for repo in repos %}
+							<option value = "{{ repo.name }}"> {{ repo.name }} </option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td><span class="lead">Public repository: </span></td>
+				<td>
+					<div>
+						<input class="form-control" type="text" placeholder="torvalds"
+							name="publicUsername" id="publicUsername" style="margin-bottom: 2%;">
+						<input class="form-control" type="text" name="publicRepoName" id="publicRepoName"
+							placeholder="linux">
+					</div>
+				</td>
+			</tr>
+		</table>
 	</div></br>
 
 	<!-- Statistics -->

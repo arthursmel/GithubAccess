@@ -53,6 +53,7 @@ svg{
 }
 
 .main-select {
+	width: 100%;
 	background-color: white;
 	margin-bottom: 0px;
 }

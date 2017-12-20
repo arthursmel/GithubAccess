@@ -45,21 +45,24 @@ def githubAccess():
 			github = Github(username, password)	
 			user = github.get_user()
 			repos = user.get_repos()
+			users_repos = [] # The repos that the user owns
 
-			# save uname pword in session
-			session["password"] = password
-			session["username"] = username
-
-			return render_template("githubAccess.html", 
-									username = username,
-									repos = repos)			
+			for repo in repos:
+				if repo.owner.login == username:
+					# If user owns the repo, add to array
+					users_repos.append(repo)
 
 		except:
-			# delete wrong uname and pword from session + give error message
-			session.pop("username", None)
-			session.pop("password", None)
 			flash("Invalid Login")
 			return redirect(url_for("index"))
+
+		# save uname pword in session
+		session["password"] = password
+		session["username"] = username
+
+		return render_template("githubAccess.html", 
+								username = username,
+								repos = users_repos)	
 
 	# Error, usually on form resubmission
 	else:
@@ -79,7 +82,7 @@ def logout():
 @app.route("/getStats", methods=["GET", "POST"])
 def getStats():
 	COMMIT_COUNT = 20
-	temp_commit_count = COMMIT_COUNT
+	temp_commit_count = 0 # Used to index the commits
 
 	# if theres no saved pword and uname
 	if ("password" not in session) or ("username" not in session):
@@ -89,13 +92,30 @@ def getStats():
 	# Log into github using saved pword and uname
 	password = session["password"]
 	username = session["username"] 
+
+	# Getting args from request
+	requested_repo_name = request.args.get("repoName")
+	requested_user_name = request.args.get("username")
+
+	# Creating github object
 	github = Github(username, password)	
-	user = github.get_user()
+
+	# If another username was requested
+	if requested_user_name:
+		# Different user requested
+		try:
+			user = github.get_user(requested_user_name)
+		except:
+			# return error message to ajax request
+			return jsonify({ "message" : "Error: Not a valid user.", "stats": None})
+
+	else:
+		# Current user requested
+		user = github.get_user()
 
 	try:
 		# if repo exists... get repo object
-		repo_name = request.args.get("repoName")
-		repo = user.get_repo(repo_name)
+		repo = user.get_repo(requested_repo_name)
 
 	except:
 		# return error message to ajax request
@@ -106,11 +126,12 @@ def getStats():
 
 	for commit in commits[:COMMIT_COUNT]:
 		# for each commit in the repo
+		temp_commit_count += 1
 		commit_stats.append(
 			# add additions / deletions for each commit to response
 			{"commit": temp_commit_count, "freq": {"additions": commit.stats.additions, "deletions": commit.stats.deletions}}
 		)
-		temp_commit_count -= 1
+		
 
 	# return the reponse to the ajax request
-	return jsonify({ "message" : repo_name, "stats": commit_stats })
+	return jsonify({ "message" : requested_repo_name, "stats": commit_stats })
