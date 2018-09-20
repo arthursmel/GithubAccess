@@ -1,5 +1,7 @@
 # GithubAccess
-![Log in](https://github.com/arthursmel/GithubAccess/blob/master/1.png "Log in")
-![Statistics](https://github.com/arthursmel/GithubAccess/blob/master/2.png "Statistics")
-A flask (python) web app which displays the additions and deletions for your repositories on github. 
-Developed as part of a college project.
+![Statistics](https://github.com/arthursmel/GithubAccess/blob/master/screenshots/1.png "Statistics")
+- A flask + python + d3js web app.
+- Displays the additions and deletions repositories on github. 
+- Works with your private and public repositories.
+- Works with any public repositories.
+- Developed as part of a college project.
